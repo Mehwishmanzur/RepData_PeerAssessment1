@@ -63,11 +63,13 @@ head(actSteps)
  If you do not understand the difference between a histogram and a barplot, research the difference between them. Make a histogram of the total number of steps taken each day
 
 ```{r}
+png("plot1.png", width=480, height=480)
 ##plot a histogram using base plotting
 hist(actSteps$steps, col="lightblue", 
                      xlab = "Total Steps", 
                      ylab = "Frequency",
                      main = "Total Steps Taken Each Day")
+dev.off()
 ```
 
 #### 2.3. Mean and median number of steps taken each day
@@ -96,12 +98,14 @@ Make a times series plot (i.e., type="l") of the 5-minute interval (x-axis) and 
 ```{r}
 ##Aggregating the number of steps over a 5-minute time interval
 intAggr <- aggregate(steps ~ interval, activity, FUN=sum)
+png("plot2.png", width=480, height=480)
 ##Applying base plotting to build a line graph
 plot(intAggr$interval, intAggr$steps, 
                         type = "l", 
                         lwd = 2, xlab="5 min Intervals",
                         ylab="Total Steps Taken", 
                         main="Total Steps Taken \n (In 5 Minute Intervals")
+dev.off()
 ```
 
 
@@ -158,6 +162,7 @@ Histogram of the total number of steps taken each day after missing values are i
 ```{r}
 ## Once again use the aggregation function, this time to prepare the data set for the histogram.  This will consiste of two histograms, one for the original dataset and another for the new imputed dataset
 amiMrgsteps <- aggregate(steps ~ date, amiMrg, FUN=sum)
+png("plot3.png", width=480, height=480)
 ##Code for the panel that will consist of 1 row and two columns (two histograms side by side)
 par(mfrow=c(1,2))
 ##The histogram for the original dataset
@@ -175,6 +180,7 @@ hist(amiMrgsteps$steps, col="lightgreen",
                      ylim = c(0,40),
                      cex = 1.0,
                      main = "Total Steps Taken Each Day \n (After Applying Imputed Values)")
+dev.off()
 ```
 
 ```{r}
@@ -227,7 +233,9 @@ head(newamiMrg)
 ```
 
 ```{r}
+png("plot4.png", width=480, height=480)
 ##Build the Time Series plot using ggplot2
 ggplot(newamiMrg, aes(x=interval, y=steps)) + geom_line(color="navyblue", size=1) +
                   facet_wrap(~dayofwk, nrow=2) + labs(x="\n Interval", y="\n Total Steps")
+dev.off()
 ```
